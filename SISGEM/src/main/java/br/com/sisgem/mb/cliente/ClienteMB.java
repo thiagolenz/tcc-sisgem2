@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 import br.com.sisgem.model.ClienteEntity;
-import br.com.sisgem.model.FornecedorEntity;
 import br.com.sisgem.model.repository.IClienteRepository;
-import br.com.sisgem.model.repository.IFornecedorRepository;
 import br.com.sisgem.model.utils.BaseBeans;
 
 @Component
@@ -44,7 +42,7 @@ public class ClienteMB extends BaseBeans{
 	}
 	
 	public void findCliente(String paramCliente){
-	//	this.setClienteList(this.clienteRepository.findByNome(paramCliente));
+		this.setClienteList(this.clienteRepository.findByNome(paramCliente));
 		this.paramCliente = null;
 		showDialog("dialogListaResultado");
 		

@@ -8,95 +8,95 @@
 	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
 
 	<ui:define name="content">
-		<h:form id="fornecedorPesquisaForm">
-			<p:panel header="Pesquisa Fornecedor">
+		<h:form id="clientePesquisaForm">
+			<p:panel header="Pesquisa Cliente">
 
-				<p:inputText value="#{fornecedorMB.paramFornecedor}"
+				<p:inputText value="#{clienteMB.paramCliente}"
 					placeholder="Pesquise por CNPJ, Nome Fantasia ou Razão Social"
 					size="55" />
 				<br />
 				<br />
 				<p:commandButton value="Pesquisar"
-					action="#{fornecedorMB.findFornecedor(fornecedorMB.paramFornecedor)}"
-					widgetVar="searchButton" update="pesquisaFornecedorDataTable" />
-				<p:dialog id="dialogSelect" header="Lista de Fornecedores"
+					action="#{clienteMB.findCliente(clienteMB.paramCliente)}"
+					widgetVar="searchButton" update="pesquisaClienteDataTable" />
+				<p:dialog id="dialogSelect" header="Lista de Clientees"
 					widgetVar="dialogListaResultado" resizable="false"
 					position="center">
-					<p:dataTable id="pesquisaFornecedorDataTable" widgetVar="dataTable"
-						var="fornecedor" loadingMessage="Carregando..."
-						value="#{fornecedorMB.fornecedorList}" paginator="true" rows="10"
+					<p:dataTable id="pesquisaClienteDataTable" widgetVar="dataTable"
+						var="cliente" loadingMessage="Carregando..."
+						value="#{clienteMB.clienteList}" paginator="true" rows="10"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15" rowKey="#{fornecedor.id}"
+						rowsPerPageTemplate="5,10,15" rowKey="#{cliente.id}"
 						selectionMode="single">
 
 						<p:ajax event="rowSelect"
-							listener="#{fornecedorMB.selectFornecedor}"
-							update=":fornecedorPesquisaForm:panelGroupBotoes" />
-						<p:ajax event="page" listener="#{fornecedorMB.unselectFornecedor}"
-							update=":fornecedorPesquisaForm:panelGroupBotoes"
+							listener="#{clienteMB.selectCliente}"
+							update=":clientePesquisaForm:panelGroupBotoes" />
+						<p:ajax event="page" listener="#{clienteMB.unselectCliente}"
+							update=":clientePesquisaForm:panelGroupBotoes"
 							oncomplete="dataTable.unselectAllRows()" />
 						<p:ajax event="rowUnselect"
-							listener="#{fornecedorMB.unselectFornecedor}"
-							update=":fornecedorPesquisaForm:panelGroupBotoes" />
+							listener="#{clienteMB.unselectCliente}"
+							update=":clientePesquisaForm:panelGroupBotoes" />
 
-						<p:column sortBy="#{fornecedor.id}">
+						<p:column sortBy="#{cliente.id}">
 							<f:facet name="header">
 								<h:outputText value="ID" />
 							</f:facet>
-							<h:outputText value="#{fornecedor.id}" />
+							<h:outputText value="#{cliente.id}" />
 						</p:column>
 
-						<p:column sortBy="#{fornecedor.cnpj}">
+						<p:column sortBy="#{cliente.cnpj}">
 							<f:facet name="header">
 								<h:outputText value="CNPJ" />
 							</f:facet>
-							<h:outputText value="#{fornecedor.cnpj}" />
+							<h:outputText value="#{cliente.cnpj}" />
 						</p:column>
 
-						<p:column sortBy="#{fornecedor.nomeFantasia}">
+						<p:column sortBy="#{cliente.nomeFantasia}">
 							<f:facet name="header">
 								<h:outputText value="Nome Fantasia" />
 							</f:facet>
-							<h:outputText value="#{fornecedor.nome}" />
+							<h:outputText value="#{cliente.nome}" />
 						</p:column>
 
-						<p:column sortBy="#{fornecedor.razaoSocial}">
+						<p:column sortBy="#{cliente.razaoSocial}">
 							<f:facet name="header">
 								<h:outputText value="Razão Social" />
 							</f:facet>
-							<h:outputText value="#{fornecedor.razaoSocial}" />
+							<h:outputText value="#{cliente.razaoSocial}" />
 						</p:column>
 
-						<p:column sortBy="#{fornecedor.contato}">
+						<p:column sortBy="#{cliente.contato}">
 							<f:facet name="header">
 								<h:outputText value="Contato" />
 							</f:facet>
-							<h:outputText value="#{fornecedor.contato}" />
+							<h:outputText value="#{cliente.contato}" />
 						</p:column>
 
-						<p:column sortBy="#{fornecedor.telefone}">
+						<p:column sortBy="#{cliente.telefone}">
 							<f:facet name="header">
 								<h:outputText value="Telefone" />
 							</f:facet>
-							<h:outputText value="#{fornecedor.telefone}" />
+							<h:outputText value="#{cliente.telefone}" />
 						</p:column>
 					</p:dataTable>
 					<h:panelGroup id="panelGroupBotoes">
 
 						<p:commandButton widgetVar="addButton" value="Novo"
-							action="/pages/fornecedor/fornecedorAddEdit.faces" ajax="false" />
+							action="/pages/cliente/clienteAddEdit.faces" ajax="false" />
 
 						<p:commandButton widgetVar="updateButton" value="Editar"
-							disabled="#{fornecedorMB.flagBotaoUpdate}"
-							action="/pages/fornecedor/fornecedorAddEdit.faces"
-							update="pesquisaFornecedorDataTable"
-							actionListener="#{fornecedorAddEditMB.update}" />
+							disabled="#{clienteMB.flagBotaoUpdate}"
+							action="/pages/cliente/clienteAddEdit.faces"
+							update="pesquisaClienteDataTable"
+							actionListener="#{clienteAddEditMB.update}" />
 
 						<p:commandButton widgetVar="deleteButton"
-							disabled="#{fornecedorMB.flagBotaoDelete}"
+							disabled="#{clienteMB.flagBotaoDelete}"
 							value="#{labels.button_delete}"
-							update="pesquisaFornecedorDataTable"
-							actionListener="#{fornecedorMB.delete}">
+							update="pesquisaClienteDataTable"
+							actionListener="#{clienteMB.delete}">
 							<p:confirm header="Comfirmação" message="Tem Certeza?"
 								icon="ui-icon-alert" />
 						</p:commandButton>

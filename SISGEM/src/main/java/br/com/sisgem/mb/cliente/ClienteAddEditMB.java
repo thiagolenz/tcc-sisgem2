@@ -1,9 +1,11 @@
 package br.com.sisgem.mb.cliente;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EnumType;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -39,6 +41,10 @@ public class ClienteAddEditMB extends BaseBeans {
 	private Boolean flagTipoClientePF = true;
 
 	private Boolean flagTipoClientePJ;
+	
+	private String editDate;
+	
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 	public ClienteAddEditMB() {
 		clienteObj = new ClienteEntity();
@@ -57,6 +63,7 @@ public class ClienteAddEditMB extends BaseBeans {
 	public void salvar() {
 		try {
 			if (this.clienteObj != null) {
+				preSave();
 				if (this.clienteObj.getId() == null) {
 					// Add
 					this.clienteRepository.save(this.clienteObj);
@@ -67,12 +74,26 @@ public class ClienteAddEditMB extends BaseBeans {
 				Utilidades.showFacesMessage("Salvo com Sucesso", 2);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
+	}
+	
+	private void preSave () throws ParseException {
+		this.clienteObj.setDtaAniversario(dateFormat.parse(editDate));
 	}
 
 	public void update() {
 		this.clienteObj = mbClienteBean.getClienteSelecionado();
+		this.flagExibeConsultaCliente = false;
+		this.flagExibeFormularioCliente = true;
+		//hideDialog("dialogListaFornecedores");
+		this.mbClienteBean.setFlagBotaoUpdate(true);
+		this.mbClienteBean.setFlagBotaoDelete(true);
+		preEdit();
+	}
+	
+	private void preEdit () {
+		this.editDate = dateFormat.format(this.clienteObj.getDtaAniversario());
 	}
 
 	public void clienteVinculado() {
@@ -84,7 +105,7 @@ public class ClienteAddEditMB extends BaseBeans {
 	public void exibeFormularioCliente() {
 		flagExibeFormularioCliente = true;
 		flagExibeConsultaCliente = false;
-		hideDialog("dialogListaClientes");
+		hideDialog("dialogListaResultado");
 	}
 
 	//// Getters and Setters////
@@ -150,6 +171,14 @@ public class ClienteAddEditMB extends BaseBeans {
 
 	public void setFlagTipoClientePJ(Boolean flagTipoClientePJ) {
 		this.flagTipoClientePJ = flagTipoClientePJ;
+	}
+	
+	public String getEditDate() {
+		return editDate;
+	}
+	
+	public void setEditDate(String editDate) {
+		this.editDate = editDate;
 	}
 
 }

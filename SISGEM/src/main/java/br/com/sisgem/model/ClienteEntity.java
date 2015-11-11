@@ -1,17 +1,12 @@
 package br.com.sisgem.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,7 +25,7 @@ public class ClienteEntity extends BaseEntities<Long>{
 	@NotNull
 	private String NomeRazaoS ;
 	
-	@Size(max=10)
+	@NotNull
 	private Integer NumeroEnd;
 	
 	@Size(max=40)
@@ -46,6 +41,7 @@ public class ClienteEntity extends BaseEntities<Long>{
 	private String Celular;
 
 	@Size(max=40)
+	@NotNull
 	private String CNPJCPF;
 	
 	@Size(max=40)
@@ -60,17 +56,14 @@ public class ClienteEntity extends BaseEntities<Long>{
 	@Size(max=40)
 	private String IM;
 	
-	@Size(max=10)
 	private Integer FlagPFPJ;
 	
-	@Size(max=40)
 	@NotNull
 	private Integer ReceberSMS;
 
 	@Size(max=40)
 	private String telefone2;
 	
-	@Size(max=10)
 	private Integer RuasCorreio_idRuasCorreio;
 	
 	@Enumerated(EnumType.STRING)

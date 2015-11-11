@@ -50,11 +50,12 @@
 						<p:commandButton widgetVar="addButton" value="Novo"
 							actionListener="#{clienteAddEditMB.exibeFormularioCliente}"
 							update=":clientePesquisaForm :clienteForm" ajax="false" />
+							
 						<p:commandButton widgetVar="updateButton" value="Editar"
 							disabled="#{clienteMB.flagBotaoUpdate}"
-							action="/pages/cliente/clienteAddEdit.faces"
-							update="pesquisaClienteDataTable"
+							update=":clientePesquisaForm :clienteForm"
 							actionListener="#{clienteAddEditMB.update}" />
+							
 						<p:commandButton widgetVar="deleteButton"
 							disabled="#{clienteMB.flagBotaoDelete}"
 							value="#{labels.button_delete}" update="pesquisaClienteDataTable"
@@ -189,7 +190,7 @@
 							</p:column>
 							<p:column>
 								<p:inputMask id="dataaniversario" mask="99/99/9999"
-									value="#{clienteAddEditMB.clienteObj.dtaAniversario}" />
+									value="#{clienteAddEditMB.editDate}" />
 							</p:column>
 							<p:column>
 								<p:outputLabel value="CPF" for="cpf" />
@@ -318,8 +319,8 @@
 						<f:facet name="footer">
 							<p:row>
 								<p:column colspan="4">
-									<p:commandButton value="Salvar" style="margin: 130 auto"
-										actionListener="#{AddEditMB.salvar}">
+									<p:commandButton value="Salvar" style="margin: 130 auto" ajax="false"
+										actionListener="#{clienteAddEditMB.salvar}">
 										<p:confirm header="Comfirmação" message="Tem Certeza?"
 											icon="ui-icon-alert" />
 									</p:commandButton>
