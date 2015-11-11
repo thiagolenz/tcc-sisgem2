@@ -1,0 +1,120 @@
+#Address
+address_cep=CEP
+address_state=Estado
+address_city=Cidade
+address_district=Bairro
+address_backyard=Logradouro
+address_number=Número
+address_complement=Complemento
+
+#Individual
+individual_new_address=Novo Endereço
+individual_add=Adicionar
+individual_update=Atualizar
+individual=Pessoa Física
+individual_list=Lista de Pessoa Física
+individual_load=Carregando Pessoa Física
+individual_id=ID
+individual_name=Nome Completo
+individual_cpf=CPF
+individual_rg=RG
+individual_code=Código Interno
+individual_status=Situação
+individual_activated=Ativado
+individual_disabled=Desativado
+
+#Language
+language=Idioma
+
+#Login
+login_username=Usuario
+login_password=Senha
+login_go=Faca o login
+login_action_go=Acessar
+login_action_logout=Sair
+login_invalid=Usuario ou senha invalidos
+
+#Logout
+logout=Sair
+
+#Menu
+menu_name=Modulos
+menu_employee=Funcionários
+menu_cadastre=Cadastro
+menu_physical_person=Pessoa Fisica
+menu_legal_entity=Pessoa Juridica
+menu_expedition_reception=Recepcao Expedicao
+menu_settings=Configuracoes
+menu_language=Idioma
+menu_warehouse=Almoxarifado
+menu_commercial=Comercial
+menu_purchase=Compras
+menu_essays=Ensaios
+menu_financial=Financeiro
+menu_maintenance=Manutencao
+menu_reception_expedition=Recepcao-Expedicao
+menu_ti=TI
+menu_os_data=Dados da OS
+menu_central_modules=Central de Modulos
+menu_option1=Opcao 01
+
+#Button
+button_add=Adicionar
+button_delete=Deletar
+button_update=Atualizar
+button_save=Salvar
+button_cancel=Cancelar
+button_search=Pesquisar
+button_back=Voltar
+
+#Category
+category=Categorias
+category_add=Adicionar
+category_update=Atualizar
+category_load=Carregando categorias.
+category_id=Id
+category_name=Nome
+category_description=Descricao
+
+#user
+user=Usuario
+user_add=Adicionar
+user_update=Atualizar
+user_load=Carregando usuarios.
+user_id=Id
+user_name=Nome
+user_password=Senha
+user_username=Login
+user_role=Acesso
+
+#Product
+product=Produtos
+product_add=Adicionar
+product_update=Atualizar
+product_load=Carregando produtos.
+product_id=Id
+product_name=Nome
+product_quantityPerUnit=Quantidade por Unidade
+product_unitPrice=Preco Unitario
+product_unitsInStock=Quantidade em Estoque
+product_unitsOnOrder=Quantidade Unitaria
+product_reorderLevel=Nivel de Pedido
+product_discontinued=Descontinuado
+
+#Legal Entity
+legal_entity=Pessoa Juridica
+legal_entity_list=Lista de Pessoa Juridica
+legal_entity_load=Carregando Pessoa Juridica.
+legal_entity_cnpj=CNPJ
+legal_entity_id=ID
+legal_entity_name_fancy=Nome Fantasia
+legal_entity_corporate_name=Razao Social
+legal_entity_state_registration=Inscricao Estadual
+legal_entity_add=Adicionar
+legal_entity_update=Atualizar
+legal_entity_email=Email
+legal_entity_observation=Observacao
+legal_entity_nfsr=NFSR
+legal_entity_situation=Situacao
+legal_entity_activated=Ativado
+legal_entity_disabled=Desativado

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="produtoPesquisaForm">
+			<p:panel header="Pesquisa Produto">
+				<p:inputText value="#{produtoMB.paramProduto}"
+					placeholder="Pesquise pelo Nome do produto" size="55" />
+				<br />
+				<br />
+				<p:commandButton value="Pesquisar"
+					action="#{produtoMB.findProduto(produtoMB.paramProduto)}"
+					widgetVar="searchButton" update="pesquisaProdutoDataTable" />
+				<p:dialog id="dialogSelect" header="Lista de Produtos"
+					widgetVar="dialogListaResultado" resizable="false"
+					position="center">
+					<p:dataTable id="pesquisaProdutoDataTable" widgetVar="dataTable"
+						var="produto" loadingMessage="Carregando..."
+						value="#{produtoMB.produtoList}" paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15" rowKey="#{produto.id}"
+						selectionMode="single">
+
+						<p:ajax event="rowSelect" listener="#{produtoMB.selectProduto}"
+							update=":produtoPesquisaForm:panelGroupBotoes" />
+						<p:ajax event="page" listener="#{produtoMB.unselectProduto}"
+							update=":produtoPesquisaForm:panelGroupBotoes"
+							oncomplete="dataTable.unselectAllRows()" />
+						<p:ajax event="rowUnselect"
+							listener="#{produtoMB.unselectProduto}"
+							update=":produtoPesquisaForm:panelGroupBotoes" />
+
+						<p:column sortBy="#{produto.id}">
+							<f:facet name="header">
+								<h:outputText value="ID" />
+							</f:facet>
+							<h:outputText value="#{produto.id}" />
+						</p:column>
+
+						<p:column sortBy="#{produto.nome}">
+							<f:facet name="header">
+								<h:outputText value="Nome" />
+							</f:facet>
+							<h:outputText value="#{produto.nome}" />
+						</p:column>
+
+						<p:column sortBy="#{produto.unidade_medida}">
+							<f:facet name="header">
+								<h:outputText value="Unidade de Medida" />
+							</f:facet>
+							<h:outputText value="#{produto.unidade_medida}" />
+						</p:column>
+
+						<p:column sortBy="#{produto.conteudo}">
+							<f:facet name="header">
+								<h:outputText value="Conteudo" />
+							</f:facet>
+							<h:outputText value="#{produto.conteudo}" />
+						</p:column>
+
+						<p:column sortBy="#{produto.valor_venda}">
+							<f:facet name="header">
+								<h:outputText value="Valor de Venda" />
+							</f:facet>
+							<h:outputText value="#{produto.valor_venda}" />
+						</p:column>
+
+					</p:dataTable>
+					<h:panelGroup id="panelGroupBotoes">
+
+						<p:commandButton widgetVar="addButton" value="Novo"
+							action="/pages/produto/produto.faces" />
+
+						<p:commandButton widgetVar="updateButton" value="Editar"
+							disabled="#{produtoMB.flagBotaoUpdate}"
+							action="/pages/produto/produto.faces"
+							update="pesquisaProdutoDataTable"
+							actionListener="#{produtoAddEditMB.update}" />
+
+						<p:commandButton widgetVar="deleteButton"
+							disabled="#{produtoMB.flagBotaoDelete}"
+							value="#{labels.button_delete}" update="pesquisaProdutoDataTable"
+							actionListener="#{produtoMB.delete}" />
+					</h:panelGroup>
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

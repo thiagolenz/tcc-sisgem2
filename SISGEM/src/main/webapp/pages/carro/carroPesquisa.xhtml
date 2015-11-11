@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="carroPesquisaForm">
+			<p:panel header="Pesquisa Carro">
+
+				<p:inputText 
+					placeholder="Pesquise por Ano, Marca, Placa, Modelo, status"
+					size="55" />
+				<br />
+				<br />
+				<p:commandButton value="Pesquisar"
+					action="#{carroMB.findCarro(carroMB.paramCarro)}"
+					widgetVar="searchButton" update="pesquisaCarroDataTable" />
+				<p:dialog id="dialogSelect" header="Lista de Carros"
+					widgetVar="dialogListaResultado" resizable="false"
+					position="center">
+					<p:dataTable id="pesquisaCarroDataTable" widgetVar="dataTable"
+						var="carro" loadingMessage="Carregando..."
+						value="#{carroMB.carroList}" paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15" rowKey="#{carro.id}"
+						selectionMode="single">
+
+						<p:ajax event="rowSelect"
+							listener="#{carroMB.selectCarro}"
+							update=":carroPesquisaForm:panelGroupBotoes" />
+						<p:ajax event="page" listener="#{carroMB.unselectCarro}"
+							update=":carroPesquisaForm:panelGroupBotoes"
+							oncomplete="dataTable.unselectAllRows()" />
+						<p:ajax event="rowUnselect"
+							listener="#{carroMB.unselectCarro}"
+							update=":carroPesquisaForm:panelGroupBotoes" />
+
+						<p:column sortBy="#{carro.id}">
+							<f:facet name="header">
+								<h:outputText value="ID" />
+							</f:facet>
+							<h:outputText value="#{carro.id}" />
+						</p:column>
+
+						<p:column sortBy="#{carro.placa}">
+							<f:facet name="header">
+								<h:outputText value="Placa" />
+							</f:facet>
+							<h:outputText value="#{carro.placa}" />
+						</p:column>
+
+						<p:column sortBy="#{carro.modelo}">
+							<f:facet name="header">
+								<h:outputText value="Modelo" />
+							</f:facet>
+							<h:outputText value="#{carro.modelo}" />
+						</p:column>
+
+						<p:column sortBy="#{carro.marca}">
+							<f:facet name="header">
+								<h:outputText value="marca" />
+							</f:facet>
+							<h:outputText value="#{carro.marca}" />
+						</p:column>
+
+						<p:column sortBy="#{carro.ano}">
+							<f:facet name="header">
+								<h:outputText value="Ano" />
+							</f:facet>
+							<h:outputText value="#{carro.ano}" />
+						</p:column>
+
+						<p:column sortBy="#{carro.localcarro}">
+							<f:facet name="header">
+								<h:outputText value="Local Carro" />
+							</f:facet>
+							<h:outputText value="#{carro.localcarro}" />
+						</p:column>
+					</p:dataTable>
+					<h:panelGroup id="panelGroupBotoes">
+
+						<p:commandButton widgetVar="addButton" value="Novo"
+							action="/pages/carro/carroAddEdit.faces" ajax="false" />
+
+						<p:commandButton widgetVar="updateButton" value="Editar"
+							disabled="#{carroMB.flagBotaoUpdate}"
+							action="/pages/carro/carroAddEdit.faces"
+							update="pesquisaCarroDataTable"
+							actionListener="#{carroAddEditMB.update}" />
+
+						<p:commandButton widgetVar="deleteButton"
+							disabled="#{carroMB.flagBotaoDelete}"
+							value="#{labels.button_delete}"
+							update="pesquisaCarroDataTable"
+							actionListener="#{carroMB.delete}">
+							<p:confirm header="Comfirmação" message="Tem Certeza?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+					</h:panelGroup>
+				</p:dialog>
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

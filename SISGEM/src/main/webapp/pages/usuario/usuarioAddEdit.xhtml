@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+
+		<h:form id="usuarioPesquisaForm">
+			<p:panel header="Pesquisa Usuario"
+				rendered="#{usuarioAddEditMB.flagExibeConsultaUsuario}">
+
+				<p:inputText value="#{usuarioMB.paramUsuario}"
+					placeholder="Pesquise por Telefone, Nome ou CPF" size="55" />
+				<br />
+				<br />
+				<p:commandButton value="Pesquisar"
+					action="#{usuarioMB.findUsuario(usuarioMB.paramUsuario)}"
+					widgetVar="searchButton" update="pesquisaUsuarioDataTable" />
+
+				<p:commandButton widgetVar="addButton" value="Novo"
+					actionListener="#{usuarioAddEditMB.exibeFormularioUsuario}"
+					update=":usuarioPesquisaForm :usuarioForm" ajax="false" />
+
+
+				<p:dialog id="dialogListaUsuarios" header="Lista de Usuarios"
+					widgetVar="dialogListaResultado" resizable="false"
+					position="center">
+					<p:dataTable id="pesquisaUsuarioDataTable" widgetVar="dataTable"
+						var="usuario" loadingMessage="Carregando..."
+						value="#{usuarioMB.usuarioList}" paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15" rowKey="#{usuario.id}"
+						selectionMode="single">
+
+						<p:ajax event="rowSelect" listener="#{usuarioMB.selectUsuario}"
+							update=":usuarioPesquisaForm:panelGroupBotoes" />
+						<p:ajax event="page" listener="#{usuarioMB.unselectUsuario}"
+							update=":usuarioPesquisaForm:panelGroupBotoes"
+							oncomplete="dataTable.unselectAllRows()" />
+						<p:ajax event="rowUnselect"
+							listener="#{usuarioMB.unselectUsuario}"
+							update=":usuarioPesquisaForm:panelGroupBotoes" />
+
+						<p:column sortBy="#{usuario.nome}">
+							<f:facet name="header">
+								<h:outputText value="Nome" />
+							</f:facet>
+							<h:outputText value="#{usuario.nome}" />
+						</p:column>
+
+
+					</p:dataTable>
+					<h:panelGroup id="panelGroupBotoes">
+
+						<p:commandButton widgetVar="addButton" value="Novo"
+							actionListener="#{usuarioAddEditMB.exibeFormularioUsuario}"
+							update=":usuarioPesquisaForm :usuarioForm" ajax="false" />
+
+						<p:commandButton widgetVar="updateButton" value="Editar"
+							disabled="#{usuarioMB.flagBotaoUpdate}"
+							action="/pages/usuario/usuarioAddEdit.faces"
+							update="pesquisaUsuarioDataTable"
+							actionListener="#{usuarioAddEditMB.update}" />
+
+						<p:commandButton widgetVar="deleteButton"
+							disabled="#{usuarioMB.flagBotaoDelete}"
+							value="#{labels.button_delete}" update="pesquisaUsuarioDataTable"
+							actionListener="#{usuarioMB.delete}">
+							<p:confirm header="Comfirmação" message="Tem Certeza?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+					</h:panelGroup>
+				</p:dialog>
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+		
+		
+		
+		
+		<h:form id="usuarioForm">
+			<p:panel rendered="#{usuarioAddEditMB.flagExibeFormularioUsuario}">
+
+				<h:inputHidden value="#{usuarioAddEditMB.usuarioObj.id}" />
+				<h:panelGroup>
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="4">
+									<p:outputLabel value="Cadastro de Usuario" />
+								</p:column>
+							</p:row>
+						</f:facet>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Status Usuario" for="situacao" />
+							</p:column>
+							<p:column>
+								<p:selectOneRadio id="situacao" required="true"
+									requiredMessage="Status usuario é obrigatório" value="#">
+									<f:selectItem itemLabel="Ativo" itemValue="1" />
+									<f:selectItem itemLabel="Inativo" itemValue="0" />
+								</p:selectOneRadio>
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Nome :" for="nome" />
+							</p:column>
+							<p:column>
+								<p:inputText id="nome" required="true"
+									requiredMessage="Nome é obrigatório" maxlength="40" size="40"
+									value="" />
+							</p:column>
+
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="CPF : " for="cpf" />
+							</p:column>
+							<p:column>
+								<p:inputMask mask="999.999.999-99" id="cpf" value="" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="RG : " for="rg" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="rg" mask="99.999.999-9" value=" " />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="CNH : " for="cnh" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="cnh" mask='99.999.999-9' value=" " />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Data de Validade : " for="datavalidade" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="datavalidade" mask="99/99/9999" value="" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Cargo : " for="cargo" />
+							</p:column>
+							<p:column>
+								<p:inputText id="cargo" required="true"
+									requiredMessage="Cargo é obrigatório" maxlength="40" size="40"
+									value=" " />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Telefone : " for="telefone" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="telefone" required="true"
+									requiredMessage="Telefone é obrigatório" mask="(999) 999-9999"
+									value=" " />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Telefone 2 : " for="telefone2" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="telefone2" mask="(999) 999-9999" value=" " />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Celular Particular : "
+									for="celularparticular" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="celularparticular" mask="(999) 999-9999"
+									value=" " />
+							</p:column>
+						</p:row>
+
+						<p:row>
+
+							<p:column>
+								<p:outputLabel value="Celular da Empresa : "
+									for="celulardaempresa" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="celulardaempresa" mask="(999) 999-9999"
+									value=" " />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Endereço : " for="endereço" />
+							</p:column>
+							<p:column>
+								<p:inputText id="endereço" required="true"
+									requiredMessage="Endereço é obrigatório" maxlength="100"
+									size="40" value=" " />
+							</p:column>
+						</p:row>
+
+
+						<p:row>
+
+							<p:column>
+								<p:outputLabel value="Número : " for="numero" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="numero" required="true"
+									requiredMessage="Número é obrigatório" maxlength="40" size="40"
+									value=" " />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Complemento : " for="complemento" />
+							</p:column>
+							<p:column>
+								<p:inputText id="complemento" maxlength="40" size="40" value="" />
+							</p:column>
+
+						</p:row>
+
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Bairro : " for="bairro" />
+							</p:column>
+							<p:column>
+								<p:inputText id="bairro" required="true"
+									requiredMessage="Bairro é obrigatório" maxlength="40" size="40"
+									value="" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Cidade : " for="cidade" />
+							</p:column>
+							<p:column>
+								<p:inputText id="cidade" required="true"
+									requiredMessage="Cidade é obrigatório" maxlength="40" size="40"
+									value=" " />
+							</p:column>
+
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Estado : " for="estado" />
+							</p:column>
+							<p:column>
+								<p:inputText id="estado" required="true"
+									requiredMessage="Estado é obrigatório" maxlength="40" size="40"
+									value="" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="CEP : " for="cep" />
+							</p:column>
+							<p:column>
+								<p:inputText id="cep" required="true"
+									requiredMessage="CEP é obrigatório" maxlength="40" size="40"
+									mask="99.999-999" value=" " />
+							</p:column>
+
+						</p:row>
+
+						<p:row>
+
+							<p:column>
+								<p:outputLabel value="Email : " for="email" />
+							</p:column>
+							<p:column>
+								<p:inputText id="email" required="true"
+									requiredMessage="Email é obrigatório" maxlength="100" size="50"
+									value=" " />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Estado Civil : " for="estadocivil" />
+							</p:column>
+							<p:column>
+								<p:inputText id="estadocivil" required="true"
+									requiredMessage="Estado Civil é obrigatório" maxlength="100"
+									size="40" value=" " />
+							</p:column>
+
+						</p:row>
+
+						<p:row>
+
+							<p:column>
+								<p:outputLabel value="Sexo : " for="sexo" />
+							</p:column>
+							<p:column>
+								<p:inputText id="sexo" required="true"
+									requiredMessage="Sexo é obrigatório" maxlength="40" size="40"
+									value=" " />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Data de Admissão : " for="dataadmissão" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dataadmissão" required="true"
+									requiredMessage="Data de Admissão é obrigatório" maxlength="40"
+									size="40" mask="99/99/9999" value="" />
+							</p:column>
+
+						</p:row>
+
+						<p:row>
+
+							<p:column>
+								<p:outputLabel value="Data de Demissão : " for="datademissao" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="datademissao"
+									maxlength="40"
+									size="40" mask="99/99/9999" value="" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Observação : " for="observação" />
+							</p:column>
+							<p:column>
+								<p:inputText id="observação" maxlength="100" size="50" value=" " />
+							</p:column>
+
+						</p:row>
+
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Salvar" style="margin: 130 auto"
+										actionListener="#{AddEditMB.salvar}">
+										<p:confirm header="Comfirmação" message="Tem Certeza?"
+											icon="ui-icon-alert" />
+									</p:commandButton>
+								</p:column>
+							</p:row>
+						</f:facet>
+
+					</p:panelGrid>
+				</h:panelGroup>
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

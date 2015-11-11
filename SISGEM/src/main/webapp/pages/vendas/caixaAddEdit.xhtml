@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="pdvPesquisaForm">
+			
+			<p:panel header="Pesquisa Caixa" rendered="#{caixaAddEditMB.flagExibeConsultaCaixa}">
+				<p:inputText value="#{caixaMB.paramCaixa}" placeholder="Pesquise ..." size="55" />
+				
+				<br/><br/>
+				
+				<p:commandButton widgetVar="addButton" value="Abrir Caixa"
+							actionListener="#{caixaAddEditMB.exibeFormularioCaixa}"
+							update=":pdvPesquisaForm :abrircaixaForm" />
+								
+				<p:commandButton value="Pesquisar"
+					action="#{caixaMB.findByData(caixaMB.paramCaixa)}"
+					widgetVar="searchButton" update="pesquisaCaixaDataTable" />
+
+
+				<p:dialog id="dialogListaCaixa"
+					header="Lista de Caixa" widgetVar="dialogListaCaixa"
+					resizable="false" position="center">
+					<p:dataTable id="pesquisaCaixaDataTable" widgetVar="dataTable"
+						var="caixa" loadingMessage="Carregando..."
+						value="#{caixaMB.caixaList}" paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15" rowKey="#{caixa.id}"
+						selectionMode="single">
+							
+						<p:ajax event="rowSelect" listener="#{caixaMB.selectCaixa}"
+							update=":pdvPesquisaForm:panelGroupBotoes" />
+						<p:ajax event="page" listener="#{caixaMB.unselectCaixa}"
+							update=":pdvPesquisaForm:panelGroupBotoes"
+							oncomplete="dataTable.unselectAllRows()" />
+						<p:ajax event="rowUnselect"
+							listener="#{caixaMB.unselectCaixa}"
+							update=":pdvPesquisaForm:panelGroupBotoes" />
+						
+						
+						<p:column sortBy="#{caixa.dataAbertura}">
+								<f:facet name="header">
+								<h:outputText value="Data Abertura" >
+								</h:outputText>
+								
+							</f:facet>
+							<h:outputText value="#{caixa.dataAbertura}">
+								 <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+							
+							</h:outputText>
+						</p:column>
+							<p:column sortBy="#{caixa.dataFechamento}">
+							<f:facet name="header">
+								<h:outputText value="Data Fechamento" />
+							</f:facet>
+							<h:outputText value="#{caixa.dataFechamento}" >
+								 <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column sortBy="#{caixa.erro}">
+							<f:facet name="header">
+								<h:outputText value="Valor Errata" />
+							</f:facet>
+							<h:outputText value="#{caixa.erro}" />
+						</p:column>
+					</p:dataTable>
+					
+					
+							<h:panelGroup id="panelGroupBotoes">
+
+						<p:commandButton widgetVar="addButton" value="Abrir Caixa"
+							actionListener="#{caixaAddEditMB.exibeFormularioCaixa}"
+							update=":pdvPesquisaForm :abrircaixaForm" />
+
+						<p:commandButton widgetVar="updateButton" value="Fechar Caixa"
+							disabled="#{caixaMB.flagBotaoUpdate}"
+							actionListener="#{caixaAddEditMB.update}"
+							update=":pdvPesquisaForm :fecharcaixaForm" />
+
+					
+					</h:panelGroup>
+
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+				</p:dialog>
+			</p:panel>
+		</h:form>
+
+<h:form id="abrircaixaForm">
+			<p:panel
+				rendered="#{caixaAddEditMB.flagExibeFormularioCaixa}">
+				<h:inputHidden value="#{caixaAddEditMB.caixaObj.id}" />
+				<h:panelGroup>
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="4">
+									<p:outputLabel value="Abrir Caixa" />
+								</p:column>
+							</p:row>
+						</f:facet>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data Abertura" for="dataAbertura" />
+							</p:column>
+							<p:column>
+									<p:calendar id="dataAbertura" value="#{caixaAddEditMB.caixaObj.dataAbertura}" pattern="MM/dd/yyyy HH:mm:ss" />
+							</p:column>
+						</p:row>
+					<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Salvar" style="margin: 130 auto"
+										ajax="false" actionListener="#{caixaAddEditMB.salvar}">
+										<p:confirm header="Comfirmação" message="Tem Certeza?"
+											icon="ui-icon-alert" />
+									</p:commandButton>
+								</p:column>
+							</p:row>
+						</f:facet>
+
+					</p:panelGrid>
+				</h:panelGroup>
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"/>
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+		
+<h:form id="fecharcaixaForm">
+			<p:panel
+				rendered="#{caixaAddEditMB.flagExibeFormularioCaixa  }">
+				<h:inputHidden value="#{caixaAddEditMB.caixaObj.id}" />
+				<h:panelGroup>
+					<p:messages id="messages1" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="4">
+									<p:outputLabel value="Fechar Caixa" />
+								</p:column>
+							</p:row>
+						</f:facet>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data Abertura" for="dataAbertura" />
+							</p:column>
+							<p:column>
+									<p:calendar id="dataAbertura" value="#{caixaAddEditMB.caixaObj.dataAbertura}" pattern="MM/dd/yyyy HH:mm:ss" disabled="true" />
+							</p:column>
+						</p:row>
+						
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data Fechamento" for="dataFechamento" />
+							</p:column>
+							<p:column>
+									<p:calendar id="dataFechamento" value="#{caixaAddEditMB.caixaObj.dataFechamento}" pattern="MM/dd/yyyy HH:mm:ss" />
+							</p:column>
+						</p:row>
+						
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Valor Errata" for="erro" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="erro" 
+									mask="9999.99"
+									value="#{caixaAddEditMB.caixaObj.erro}" />
+							</p:column>
+						</p:row>
+						
+						
+					<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Salvar" style="margin: 130 auto"
+										ajax="false" actionListener="#{caixaAddEditMB.salvar}">
+										<p:confirm header="Comfirmação" message="Tem Certeza?"
+											icon="ui-icon-alert" />
+									</p:commandButton>
+								</p:column>
+							</p:row>
+						</f:facet>
+
+					</p:panelGrid>
+				</h:panelGroup>
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"/>
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

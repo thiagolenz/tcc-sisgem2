@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" template="../main.xhtml">
+
+	<ui:define name="content">
+
+		<h:form action="BotoesRelatorios">
+			<p:panelGrid columns="2">
+
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="2">
+							<p:outputLabel value="Relatórios" />
+						</p:column>
+					</p:row>
+				</f:facet>
+
+				<h:outputText value="Relatório Vendas por Periodo" />
+				<p:commandButton value="Executar" type="button"
+					onclick="PF('dlg1').show();" />
+
+				<h:outputText value="Relatório Vendas por Região" />
+				<p:commandButton value="Executar" type="button"
+					onclick="PF('dlg2').show();" />
+
+				<h:outputText value="Relatório Vendas por Vendedor" />
+				<p:commandButton value="Executar" type="button"
+					onclick="PF('dlg3').show();" />
+
+				<h:outputText value="Relatório Verificação do Carro" />
+				<p:commandButton value="Executar" type="button"
+					onclick="PF('dlg4').show();" />
+
+				<h:outputText value="Relatório Localização do Vendedor" />
+				<p:commandButton value="Executar" type="button"
+					onclick="PF('dlg5').show();" />
+
+				<h:outputText value="Produtos com Vendedor" />
+				<p:commandButton value="Executar" type="button"
+					onclick="PF('dlg6').show();" />
+			</p:panelGrid>
+		</h:form>
+
+		<h:form action="RelatorioPeriodo">
+
+			<p:dialog header="Relatório Vendas por Periodo" widgetVar="dlg1" >
+
+				<h:panelGroup>
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data Inicial :" for="dtainicialrel1" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtainicialrel1" value="" mask="99/99/9999"
+									required="true" requiredMessage="Data Inicial é obrigatório" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Data Final :" for="dtafinalrel1" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtafinalrel1" value="" mask="99/99/9999"
+									required="true" requiredMessage="Data Final é obrigatório" />
+							</p:column>
+
+						</p:row>
+					
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Gerar" style="margin: 140 auto"
+										type="submit" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</h:panelGroup>
+
+			</p:dialog>
+		</h:form>
+
+		<h:form action="RelatorioVendasRegiao" >
+
+			<p:dialog header="Relatório Vendas por Região" widgetVar="dlg2"
+				position="center">
+				<h:panelGroup>
+					<p:messages id="messages2" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data Inicial :" for="dtainicialrel2" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtainicialrel2" value="#" mask="99/99/9999"
+									required="true" requiredMessage="Data Inicial é obrigatório" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Data Final :" for="dtafinalrel2"/>
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtafinalrel2" value="#" mask="99/99/9999"
+									required="true" requiredMessage="Data Final é obrigatório" />
+							</p:column>
+
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Rota :" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="rotarel2" required="true" requiredMessage="Rota é obrigatório"/>
+							</p:column>
+							<p:column>
+								<p:commandButton value="Pesquisar Rota" style="margin: 120 auto"
+									 />
+							</p:column>
+
+						</p:row>
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Gerar" style="margin: 130 auto" type="submit"/>
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+
+		</h:form>
+
+		
+			<p:dialog header="Relatório Vendas por Vendedor" widgetVar="dlg3" position="center" >
+			
+			<h:form action="RelatorioVendedor">
+				<h:panelGroup>
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data Inicial :" for="dtainicialrel3" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtainicialrel3" value="" mask="99/99/9999"
+									required="true" requiredMessage="Data Inicial é obrigatório" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Data Final :" for="dtafinalrel3" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtafinalrel3" value="" mask="99/99/9999"
+									required="true" requiredMessage="Data Final é obrigatório" />
+							</p:column>
+
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Vendedor :" for="vendedorrel3"/>
+							</p:column>
+							<p:column>
+								<p:inputMask id="vendedorrel3" required="true" requiredMessage="Vendedor é obrigatório"/>
+							</p:column>
+							<p:column>
+								<p:commandButton value="Pesquisar Vendedor"
+									style="margin: 120 auto" />
+							</p:column>
+
+						</p:row>
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Gerar" style="margin: 140 auto"
+										type="submit" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</h:panelGroup>
+			
+
+		</h:form>
+		</p:dialog>
+
+		<h:form action="RelatorioCarro">
+			<p:dialog header="Relatório Verificação do Carro" widgetVar="dlg4"
+				position="center">
+				
+				<h:panelGroup>
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data Inicial :" for="dtainicialrel4" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtainicialrel4" value="" mask="99/99/9999"
+									required="true" requiredMessage="Data Inicial é obrigatório" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Data Final :" for="dtafinalrel4" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtafinalrel4" value="" mask="99/99/9999"
+									required="true" requiredMessage="Data Final é obrigatório" />
+							</p:column>
+
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Carro :" for="carrorel4"/>
+							</p:column>
+							<p:column>
+								<p:inputMask id="carrorel4" required="true" requiredMessage="Carro é obrigatório"/>
+							</p:column>
+							<p:column>
+								<p:commandButton value="Pesquisar Carro"
+									style="margin: 120 auto" />
+							</p:column>
+
+						</p:row>
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Gerar" style="margin: 140 auto"
+										type="submit" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</h:panelGroup>
+
+			</p:dialog>
+		</h:form>
+
+		<h:form action="LocaliUsuario">
+
+			<p:dialog header="Relatório Localização do Vendedor" widgetVar="dlg5"
+				position="center">
+				
+				<h:panelGroup>
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Data Inicial :" for="dtainicialrel5" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtainicialrel5" value="" mask="99/99/9999"
+									required="true" requiredMessage="Data Inicial é obrigatório" />
+							</p:column>
+
+							<p:column>
+								<p:outputLabel value="Data Final :" for="dtafinalrel5" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dtafinalrel5" value="" mask="99/99/9999"
+									required="true" requiredMessage="Data Final é obrigatório" />
+							</p:column>
+
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Vendedor :" for="vendedorrel5"/>
+							</p:column>
+							<p:column>
+								<p:inputMask id="vendedorrel5" required="true" requiredMessage="Vendedor é obrigatório"/>
+							</p:column>
+							<p:column>
+								<p:commandButton value="Pesquisar Vendedor"
+									style="margin: 120 auto" />
+							</p:column>
+
+						</p:row>
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Gerar" style="margin: 140 auto"
+										type="submit" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</h:panelGroup>
+				
+
+			</p:dialog>
+
+		</h:form>
+
+		<h:form action="ProdutosVendedor">
+			<p:dialog header="Produtos na Responsabilidade do Vendedor" widgetVar="dlg6"
+				position="center">
+			
+			
+			<h:panelGroup>
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+					<p:panelGrid style="margin-bottom:10px" cellpadding="5">
+						
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Vendedor :" for="vendedorrel5"/>
+							</p:column>
+							<p:column>
+								<p:inputMask id="vendedorrel5" required="true" requiredMessage="Vendedor é obrigatório"/>
+							</p:column>
+							<p:column>
+								<p:commandButton value="Pesquisar Vendedor"	style="margin: 120 auto" />
+							</p:column>
+
+						</p:row>
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="4">
+									<p:commandButton value="Gerar" style="margin: 140 auto"
+										type="submit" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</h:panelGroup>
+			
+			
+			
+			</p:dialog>
+
+		</h:form>
+
+
+
+
+	</ui:define>
+</ui:composition>
+
+
+
+

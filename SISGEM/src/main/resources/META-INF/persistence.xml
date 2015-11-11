@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
+	<persistence-unit name="persistenceUnitName" transaction-type="RESOURCE_LOCAL">
+		<class>org.springframework.data.jpa.domain.AbstractPersistable</class>
+		<class>br.com.sisgem.model.UsuarioEntity</class>
+		<class>br.com.sisgem.model.FornecedorEntity</class>
+		<class>br.com.sisgem.model.ClienteEntity</class>
+		<class>br.com.sisgem.model.ProdutoEntity</class>
+		<class>br.com.sisgem.model.CarroEntity</class>
+		<class>br.com.sisgem.model.LocalizacaoLogEntity</class>
+		<class>br.com.sisgem.model.BairrosEntity</class>
+		<class>br.com.sisgem.model.CidadesEntity</class>
+		<class>br.com.sisgem.model.FormapagamentoEntity</class>
+		<class>br.com.sisgem.model.UfEntity</class>
+		<class>br.com.sisgem.model.LogradourosEntity</class>
+		<class>br.com.sisgem.model.CaixaEntity</class>
+		<class>br.com.sisgem.model.EstoqueUsuarioEntity</class>
+		
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+		</properties> 
+	</persistence-unit>
+</persistence>
