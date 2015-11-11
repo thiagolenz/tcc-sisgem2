@@ -246,16 +246,20 @@
 							</p:column>
 							<p:column>
 								<p:inputText id="cep" required="true"
+									value="#{clienteAddEditMB.clienteObj.cep}"
+									valueChangeListener="#{clienteAddEditMB.onCepChange}" update="clienteForm"
 									requiredMessage="CEP é obrigatório" maxlength="100" size="40"
-									mask="(99) 9999-9999" value="#" />
+									mask="(99) 9999-9999">
+									<p:ajax update="clienteForm"/>
+								</p:inputText>
 							</p:column>
 							<p:column>
-								<p:outputLabel value="Estado" for="estado" />
+								<p:outputLabel value="Estado" for="uf" />
 							</p:column>
 							<p:column>
-								<p:inputText id="estado" required="true"
+								<p:inputText id="uf" required="true"
 									requiredMessage="Estado é obrigatório" maxlength="100"
-									size="40" value="#" />
+									size="40" value="#{clienteAddEditMB.clienteObj.uf}" />
 							</p:column>
 						</p:row>
 
@@ -266,7 +270,7 @@
 							<p:column>
 								<p:inputText id="cidade" required="true"
 									requiredMessage="Cidade é obrigatório" maxlength="100"
-									size="40" value="#" />
+									size="40" value="#{clienteAddEditMB.clienteObj.cidade}"/>
 							</p:column>
 							<p:column>
 								<p:outputLabel value="Bairro" for="bairro" />
@@ -274,18 +278,18 @@
 							<p:column>
 								<p:inputText id="bairro" required="true"
 									requiredMessage="Bairro é obrigatório" maxlength="100"
-									size="40" value="#" />
+									size="40" value="#{clienteAddEditMB.clienteObj.bairro}"/>
 							</p:column>
 						</p:row>
 
 						<p:row>
 							<p:column>
-								<p:outputLabel value="Rua" for="endereço" />
+								<p:outputLabel value="Rua" for="rua" />
 							</p:column>
 							<p:column>
-								<p:inputText id="endereço" required="true"
+								<p:inputText id="rua" required="true"
 									requiredMessage="Endereço é obrigatório" maxlength="100"
-									size="40" value="#" />
+									size="40" value="#{clienteAddEditMB.clienteObj.rua}" />
 							</p:column>
 							<p:column>
 								<p:outputLabel value="Número" for="numero" />
@@ -312,7 +316,7 @@
 							<p:column>
 								<p:inputMask id="observação" rendered="true"
 									requiredMessage="E-mail é obrigatório" maxlength="100"
-									size="40" value=" " />
+									size="40" value="#{clienteAddEditMB.clienteObj.observacao}" />
 							</p:column>
 						</p:row>
 

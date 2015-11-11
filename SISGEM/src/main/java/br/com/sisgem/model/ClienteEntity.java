@@ -72,7 +72,13 @@ public class ClienteEntity extends BaseEntities<Long>{
 	@Size(max=110)
 	private String nomeFantasia;
 	
-	
+	private String cep;
+	private String cidade;
+	private String uf;
+	private String bairro;
+	private String rua;
+
+	private String observacao;
 	
 	public ClienteEntity() {
 		// TODO Auto-generated constructor stub
@@ -337,7 +343,74 @@ public class ClienteEntity extends BaseEntities<Long>{
 	
 
 
+	public String getCep() {
+		return cep;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 
 
 
+
+	public String getCidade() {
+		return cidade;
+	}
+
+
+
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+
+
+
+	public String getUf() {
+		return uf;
+	}
+
+
+
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+
+
+
+	public String getBairro() {
+		return bairro;
+	}
+
+
+
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+
+
+
+	public String getRua() {
+		return rua;
+	}
+
+
+
+
+	public void setRua(String rua) {
+		this.rua = rua;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+	
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
 }

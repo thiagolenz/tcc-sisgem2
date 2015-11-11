@@ -4,14 +4,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import br.com.sisgem.enums.EinativoAtivo;
 import br.com.sisgem.model.ClienteEntity;
+import br.com.sisgem.model.CorreiosBean;
+import br.com.sisgem.model.repository.CorreiosRepository;
 import br.com.sisgem.model.repository.IClienteRepository;
 import br.com.sisgem.model.utils.BaseBeans;
 import br.com.sisgem.model.utils.Utilidades;
@@ -28,6 +32,9 @@ public class ClienteAddEditMB extends BaseBeans {
 
 	@Inject
 	private FacesContext context;
+	
+	@Autowired
+	private CorreiosRepository correiosRepository;
 
 	@Inject
 	private ClienteMB mbClienteBean;
@@ -79,7 +86,8 @@ public class ClienteAddEditMB extends BaseBeans {
 	}
 	
 	private void preSave () throws ParseException {
-		this.clienteObj.setDtaAniversario(dateFormat.parse(editDate));
+		if (editDate != null && editDate.length() > 0)
+			this.clienteObj.setDtaAniversario(dateFormat.parse(editDate));
 	}
 
 	public void update() {
@@ -93,7 +101,25 @@ public class ClienteAddEditMB extends BaseBeans {
 	}
 	
 	private void preEdit () {
-		this.editDate = dateFormat.format(this.clienteObj.getDtaAniversario());
+		if (this.clienteObj.getDtaAniversario() != null)
+			this.editDate = dateFormat.format(this.clienteObj.getDtaAniversario());
+		if (this.clienteObj.getFlagPFPJ() == 2) {
+			switchPFPJ();
+		}
+		
+	}
+	
+	public void onCepChange(ValueChangeEvent e) {
+		String newValue =  e.getNewValue().toString();
+		CorreiosBean result = correiosRepository.findByCep(newValue);
+		if (result != null) {
+			this.clienteObj.setBairro(result.getBairro());
+			this.clienteObj.setRua(result.getNomeRua());
+			this.clienteObj.setCep(result.getCep());
+			this.clienteObj.setCidade(result.getCidade());
+			this.clienteObj.setUf(result.getEstado());
+			System.out.println("Tem cep");
+		}
 	}
 
 	public void clienteVinculado() {
